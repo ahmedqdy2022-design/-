@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">أكاديمية جيم الفاخرة للتمارين الرياضية والتغذية</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        /* إعدادات ثيم الوضع الليلي والنهاري */
+        .theme-dark {
+            background-color: #090d16;
+            color: #f1f5f9;
+        }
+        .theme-light {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col theme-dark" id="bodyTheme">
+
+    <!-- الهيدر الفاخر -->
+    <header id="headerTheme" class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40 shadow-2xl transition-colors duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-xl px-3 py-1 rounded-xl shadow-lg shadow-amber-500/20">GYM</span>
+                <h1 id="navBrand" class="text-xl font-black tracking-wider bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">أكاديمية جيم</h1>
+            </div>
+            
+            <nav class="hidden md:flex space-x-6 space-x-reverse text-sm font-semibold">
+                <a href="#" id="menuHome" class="text-amber-400 hover:text-amber-300 transition">الرئيسية</a>
+                <a href="#exercises-section" id="menuEncyclopedic" class="text-slate-300 hover:text-amber-400 transition">موسوعة التمارين</a>
+                <a href="#tips-section" id="menuTips" class="text-slate-300 hover:text-amber-400 transition">التغذية والتعافي</a>
+                <a href="#calculator-section" id="menuCalculator" class="text-slate-300 hover:text-amber-400 transition">حاسبة اللياقة</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <!-- زر تبديل اللغة -->
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-3.5 py-2 rounded-xl text-xs transition border border-slate-700 shadow-lg">EN 🌐</button>
+                <!-- زر تبديل الثيم (ليلي / نهاري) -->
+                <button onclick="toggleTheme()" id="themeBtn" class="bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-3.5 py-2 rounded-xl text-xs transition border border-slate-700 shadow-lg">☀️ نهاري</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- القسم الرئيسي الفخم (Hero Section) -->
+    <section class="relative bg-gradient-to-b from-slate-950 via-slate-900 to-[#090d16] py-16 px-4 text-center border-b border-slate-800/60 transition-colors duration-300" id="heroSection">
+        <div class="max-w-4xl mx-auto">
+            <span id="heroBadge" class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-inner">النظام الرياضي الأضخم والأكثر شمولاً</span>
+            <h2 id="heroTitle" class="text-4xl md:text-6xl font-black mt-6 mb-6 leading-tight">ابنِ جسماً أسطورياً مع <span class="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">أكاديمية جيم</span></h2>
+            <p id="heroDesc" class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">موسوعة متكاملة تضم التمارين الرياضية المحترفة، جداول التغذية، وأسرار التعافي السريع لبناء العضلات بكفاءة عالية.</p>
+        </div>
+    </section>
+
+    <!-- محتوى الأكاديمية والتمارين -->
+    <main id="exercises-section" class="container mx-auto px-4 py-12 flex-grow">
+        
+        <!-- أزرار التبويبات لفصل المستويات -->
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button onclick="switchTab('all')" id="tab-all" class="tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-amber-500 text-slate-950 transition shadow-lg shadow-amber-500/20">جميع التمارين</button>
+            <button onclick="switchTab('مبتدئ')" id="tab-مبتدئ" class="tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-300 hover:bg-slate-800 transition border border-slate-800">🟢 قسم المبتدئين</button>
+            <button onclick="switchTab('متوسط')" id="tab-متوسط" class="tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-300 hover:bg-slate-800 transition border border-slate-800">🔵 قسم المتوسطين</button>
+            <button onclick="switchTab('محترف')" id="tab-محترف" class="tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-300 hover:bg-slate-800 transition border border-slate-800">🔥 قسم المحترفين</button>
+        </div>
+
+        <!-- شريط البحث المباشر بجانب التمارين -->
+        <div class="max-w-2xl mx-auto mb-10">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="ابحث عن أي تمرين (مثال: سكوات، صدر، ظهر، تراسبس)..." class="w-full bg-slate-900/90 border border-slate-700/80 px-5 py-4 pl-12 rounded-2xl text-sm focus:outline-none focus:border-amber-500 transition text-white shadow-xl">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">🔍</span>
+            </div>
+        </div>
+
+        <!-- صندوق الجداول والمواعيد التفصيلية -->
+        <div id="scheduleBox" class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-6 md:p-8 rounded-3xl mb-12 shadow-2xl relative overflow-hidden transition-colors duration-300">
+            <!-- محتوى الجدول يتغير ديناميكياً -->
+        </div>
+
+        <div class="flex justify-between items-center mb-6">
+            <h3 id="currentCategoryTitle" class="text-2xl font-black border-r-4 border-amber-500 pr-3">قائمة التمارين المتاحة</h3>
+            <span id="resultsCount" class="text-sm text-slate-400 bg-slate-900 border border-slate-800 px-4 py-1.5 rounded-xl font-bold"></span>
+        </div>
+
+        <!-- شبكة عرض التمارين -->
+        <div id="exerciseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            <!-- التمارين تعبأ ديناميكياً -->
+        </div>
+    </main>
+
+    <!-- قسم نصائح التغذية والتعافي والمحترفين -->
+    <section id="tips-section" class="bg-slate-950 border-t border-slate-900 py-16 px-4 transition-colors duration-300">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-12">
+                <span id="tipsBadge" class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-inner">السر الحقيقي للنتائج المذهلة</span>
+                <h3 id="tipsMainTitle" class="text-3xl md:text-4xl font-black mt-4 mb-3 text-white">أسرار التغذية، المكملات، والتعافي العضلي</h3>
+                <p id="tipsMainDesc" class="text-slate-400 text-sm max-w-2xl mx-auto">التمرين وحده لا يكفي؛ اكتشف قواعد التغذية السليمة، جداول النوم، وأهم النصائح لتفادي الإصابات.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- البطاقة الأولى -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col">
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4">🥩</div>
+                    <h4 id="tipCard1Title" class="text-lg font-black text-amber-400 mb-2">قواعد التغذية والبروتين</h4>
+                    <p id="tipCard1Desc" class="text-xs text-slate-300 leading-relaxed mb-4 flex-grow">
+                        • احرص على تناول من 1.6 إلى 2.2 غرام من البروتين لكل كيلوغرام من وزن جسمك يومياً (دجاج، لحوم حمراء، بيض، أسماك).\n• وزع وجباتك كل 3-4 ساعات لتحفيز تخليق البروتين العضلي.\n• لا تهمل الكربوهيدرات المعقدة (الشوفان، الأرز البنّي، البطاطا) لتزويد جسمك بالطاقة اللازمة للأوزان الثقيلة.
+                    </p>
+                    <span class="text-[11px] text-amber-500 font-bold bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20 text-center">قاعدة أساسية للتضخيم</span>
+                </div>
+
+                <!-- البطاقة الثانية -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col">
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4">💤</div>
+                    <h4 id="tipCard2Title" class="text-lg font-black text-amber-400 mb-2">النوم وهرمون النمو (Recovery)</h4>
+                    <p id="tipCard2Desc" class="text-xs text-slate-300 leading-relaxed mb-4 flex-grow">
+                        • النمو الحقيقي يحدث أثناء فترة الراحة والنوم وليس داخل صالة الألعاب الرياضية.\n• احرص على النوم من 7 إلى 8 ساعات ليلاً بعمق لضمان إفراز هرمون النمو (GH) واستشفاء الألياف العضلية المتمزقة.\n• اشرب ما لا يقل عن 3 إلى 4 لترات من الماء يومياً لطرد السموم وترطيب المفاصل.
+                    </p>
+                    <span class="text-[11px] text-amber-500 font-bold bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20 text-center">السر الخفي للابطال</span>
+                </div>
+
+                <!-- البطاقة الثالثة -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col">
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl font-bold mb-4">🔥</div>
+                    <h4 id="tipCard3Title" class="text-lg font-black text-amber-400 mb-2">نصائح المحترفين لتفادي الإصابات</h4>
+                    <p id="tipCard3Desc" class="text-xs text-slate-300 leading-relaxed mb-4 flex-grow">
+                        • قم دائماً بالإحماء الجيد لمدة 10 دقائق قبل رفع الأوزان الثقيلة لتحضير المفاصل والأوتار.\n• إتقان التكنيك الصحيح أهم بكثير من رفع أوزان مبالغ فيها قد تؤدي لتمزقات عضلية.\n• استمع لجسمك جيداً وعند الشعور بألم حاد في المفصل توقف فوراً واستشر أخصائياً.
+                    </p>
+                    <span class="text-[11px] text-amber-500 font-bold bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20 text-center">أمان واستمرارية</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم حاسبة اللياقة البدنية (BMI) -->
+    <section id="calculator-section" class="bg-slate-900 border-t border-slate-800 py-16 px-4 transition-colors duration-300">
+        <div class="container mx-auto max-w-2xl bg-slate-950 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+            <h3 id="calcTitle" class="text-2xl font-black text-amber-400 mb-2 text-center">حاسبة كتلة الجسم السريعة (BMI)</h3>
+            <p id="calcDesc" class="text-slate-400 text-xs text-center mb-6">احسب مؤشر كتلة جسمك لمعرفة ما إذا كنت بحاجة للتنشيف أو التضخيم.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label id="labelWeight" class="block text-xs text-slate-400 mb-2 font-bold">الوزن (كغ):</label>
+                    <input type="number" id="weightInput" placeholder="مثال: 75" class="w-full bg-slate-900 border border-slate-800 px-4 py-3 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label id="labelHeight" class="block text-xs text-slate-400 mb-2 font-bold">الطول (سم):</label>
+                    <input type="number" id="heightInput" placeholder="مثال: 175" class="w-full bg-slate-900 border border-slate-800 px-4 py-3 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+            </div>
+            <button onclick="calculateBMI()" id="calcBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl transition shadow-lg shadow-amber-500/20 text-sm">احسب النتيجة الآن</button>
+            <div id="bmiResult" class="mt-4 text-center text-sm font-bold text-amber-300 hidden bg-slate-900 p-4 rounded-xl border border-slate-800"></div>
+        </div>
+    </section>
+
+    <!-- نافذة تفاصيل التمرين المنبثقة الفاخرة (Modal) -->
+    <div id="exerciseModal" class="fixed inset-0 bg-black/85 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal()" class="absolute top-4 left-4 bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold transition z-10 shadow-lg">✕</button>
+            <div class="p-6 md:p-8">
+                <span id="modalLevel" class="text-xs font-bold px-3 py-1 rounded-full uppercase"></span>
+                <h3 id="modalTitle" class="text-2xl font-black mt-3 mb-1 text-amber-400"></h3>
+                <p id="modalMuscle" class="text-sm text-slate-400 mb-6 font-semibold"></p>
+                
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 text-center shadow-inner">
+                        <span id="modalSetsLabel" class="text-xs text-slate-500 block mb-1">المجموعات</span>
+                        <span id="modalSets" class="text-lg font-black text-amber-400"></span>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 text-center shadow-inner">
+                        <span id="modalRepsLabel" class="text-xs text-slate-500 block mb-1">التكرارات</span>
+                        <span id="modalReps" class="text-lg font-black text-amber-400"></span>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 text-center shadow-inner">
+                        <span id="modalRestLabel" class="text-xs text-slate-500 block mb-1">الراحة</span>
+                        <span id="modalRest" class="text-lg font-black text-amber-400"></span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 mb-4 shadow-inner">
+                    <h4 id="modalDescTitle" class="text-sm font-bold text-amber-400 mb-2">طريقة الأداء بالتفصيل:</h4>
+                    <p id="modalDesc" class="text-sm text-slate-300 leading-relaxed whitespace-pre-line"></p>
+                </div>
+
+                <div class="bg-amber-500/10 border border-amber-500/20 p-5 rounded-2xl">
+                    <h4 id="modalTipsTitle" class="text-sm font-bold text-amber-400 mb-1">⚠️ نصائح أمان وتجنب الإصابات:</h4>
+                    <p id="modalTips" class="text-xs text-amber-200/80 leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer id="footerTheme" class="bg-slate-950 border-t border-slate-900 py-8 text-center text-xs text-slate-500 transition-colors duration-300">
+        <p id="footerText">جميع الحقوق محفوظة © 2026 - أكاديمية جيم الفاخرة للتمارين الرياضية.</p>
+    </footer>
+
+    <!-- قاعدة البيانات والجافاسكريبت -->
+    <script>
+        let currentLang = 'ar';
+        let currentTheme = 'dark';
+
+        const translations = {
+            ar: {
+                pageTitle: "أكاديمية جيم الفاخرة للتمارين الرياضية والتغذية",
+                navBrand: "أكاديمية جيم",
+                menuHome: "الرئيسية",
+                menuEncyclopedic: "موسوعة التمارين",
+                menuTips: "التغذية والتعافي",
+                menuCalculator: "حاسبة اللياقة",
+                heroBadge: "النظام الرياضي الأضخم والأكثر شمولاً",
+                heroTitle: "ابنِ جسماً أسطورياً مع <span class=\"bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent\">أكاديمية جيم</span>",
+                heroDesc: "موسوعة متكاملة تضم التمارين الرياضية المحترفة، جداول التغذية، وأسرار التعافي السريع لبناء العضلات بكفاءة عالية.",
+                searchPlaceholder: "ابحث عن أي تمرين (مثال: سكوات، صدر، ظهر، تراسبس)...",
+                tabAll: "جميع التمارين",
+                tabBeginner: "🟢 قسم المبتدئين",
+                tabIntermediate: "🔵 قسم المتوسطين",
+                tabPro: "🔥 قسم المحترفين",
+                categoryAll: "جميع التمارين الفاخرة والموسعة المتاحة",
+                categoryBeginner: "🟢 تمارين المبتدئين التأسيسية",
+                categoryIntermediate: "🔵 تمارين المتوسطين التطويرية",
+                categoryPro: "🔥 تمارين المحترفين (الجداعين)",
+                tipsBadge: "السر الحقيقي للنتائج المذهلة",
+                tipsMainTitle: "أسرار التغذية، المكملات، والتعافي العضلي",
+                tipsMainDesc: "التمرين وحده لا يكفي؛ اكتشف قواعد التغذية السليمة، جداول النوم، وأهم النصائح لتفادي الإصابات.",
+                tipCard1Title: "قواعد التغذية والبروتين",
+                tipCard1Desc: "• احرص على تناول من 1.6 إلى 2.2 غرام من البروتين لكل كيلوغرام من وزن جسمك يومياً (دجاج، لحوم حمراء، بيض، أسماك).\n• وزع وجباتك كل 3-4 ساعات لتحفيز تخليق البروتين العضلي.\n• لا تهمل الكربوهيدرات المعقدة (الشوفان، الأرز البنّي، البطاطا) لتزويد جسمك بالطاقة اللازمة للأوزان الثقيلة.",
+                tipCard2Title: "النوم وهرمون النمو (Recovery)",
+                tipCard2Desc: "• النمو الحقيقي يحدث أثناء فترة الراحة والنوم وليس داخل صالة الألعاب الرياضية.\n• احرص على النوم من 7 إلى 8 ساعات ليلاً بعمق لضمان إفراز هرمون النمو (GH) واستشفاء الألياف العضلية المتمزقة.\n• اشرب ما لا يقل عن 3 إلى 4 لترات من الماء يومياً لطرد السموم وترطيب المفاصل.",
+                tipCard3Title: "نصائح المحترفين لتفادي الإصابات",
+                tipCard3Desc: "• قم دائماً بالإحماء الجيد لمدة 10 دقائق قبل رفع الأوزان الثقيلة لتحضير المفاصل والأوتار.\n• إتقان التكنيك الصحيح أهم بكثير من رفع أوزان مبالغ فيها قد تؤدي لتمزقات عضلية.\n• استمع لجسمك جيداً وعند الشعور بألم حاد في المفصل توقف فوراً واستشر أخصائياً.",
+                calcTitle: "حاسبة كتلة الجسم السريعة (BMI)",
+                calcDesc: "احسب مؤشر كتلة جسمك لمعرفة ما إذا كنت بحاجة للتنشيف أو التضخيم.",
+                labelWeight: "الوزن (كغ):",
+                labelHeight: "الطول (سم):",
+                calcBtn: "احسب النتيجة الآن",
+                modalSetsLabel: "المجموعات",
+                modalRepsLabel: "التكرارات",
+                modalRestLabel: "الراحة",
+                modalDescTitle: "طريقة الأداء بالتفصيل:",
+                modalTipsTitle: "⚠️ نصائح أمان وتجنب الإصابات:",
+                footerText: "جميع الحقوق محفوظة © 2026 - أكاديمية جيم الفاخرة للتمارين الرياضية.",
+                themeBtnDark: "🌙 ليلي",
+                themeBtnLight: "☀️ نهاري",
+                detailsBtn: "اضغط لعرض تفاصيل التمرين والأداء..."
+            },
+            en: {
+                pageTitle: "Gym Academy Luxury Fitness & Nutrition System",
+                navBrand: "Gym Academy",
+                menuHome: "Home",
+                menuEncyclopedic: "Exercises",
+                menuTips: "Nutrition & Recovery",
+                menuCalculator: "BMI Calculator",
+                heroBadge: "The Ultimate & Most Comprehensive Fitness System",
+                heroTitle: "Build a Legendary Physique with <span class=\"bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent\">Gym Academy</span>",
+                heroDesc: "A complete encyclopedia featuring professional workouts, nutrition guides, and fast recovery secrets for high muscle growth.",
+                searchPlaceholder: "Search for any exercise (e.g., squat, chest, back, triceps)...",
+                tabAll: "All Exercises",
+                tabBeginner: "🟢 Beginners",
+                tabIntermediate: "🔵 Intermediate",
+                tabPro: "🔥 Pro (Beasts)",
+                categoryAll: "All Available Luxury & Expanded Exercises",
+                categoryBeginner: "🟢 Beginner Foundation Exercises",
+                categoryIntermediate: "🔵 Intermediate Development Exercises",
+                categoryPro: "🔥 Pro Extreme Exercises",
+                tipsBadge: "The Real Secret to Amazing Results",
+                tipsMainTitle: "Nutrition, Supplements & Muscle Recovery Secrets",
+                tipsMainDesc: "Working out alone isn't enough; discover proper nutrition rules, sleep schedules, and injury prevention tips.",
+                tipCard1Title: "Nutrition & Protein Rules",
+                tipCard1Desc: "• Consume 1.6 to 2.2 grams of protein per kg of body weight daily (chicken, beef, eggs, fish).\n• Space your meals every 3-4 hours to maximize muscle protein synthesis.\n• Don't neglect complex carbs (oats, brown rice, sweet potatoes) for heavy lifting energy.",
+                tipCard2Title: "Sleep & Growth Hormone (Recovery)",
+                tipCard2Desc: "• True muscle growth happens during rest and sleep, not inside the gym.\n• Aim for 7 to 8 hours of deep night sleep to boost Growth Hormone (GH) release and muscle repair.\n• Drink at least 3 to 4 liters of water daily to flush toxins and lubricate joints.",
+                tipCard3Title: "Pro Tips for Injury Prevention",
+                tipCard3Desc: "• Always warm up for 10 minutes before lifting heavy weights to prep joints and tendons.\n• Proper execution technique is far more important than ego-lifting excessive weights.\n• Listen to your body; if you feel sharp joint pain, stop immediately.",
+                calcTitle: "Quick BMI Calculator",
+                calcDesc: "Calculate your body mass index to check if you need bulking or cutting.",
+                labelWeight: "Weight (kg):",
+                labelHeight: "Height (cm):",
+                calcBtn: "Calculate Now",
+                modalSetsLabel: "Sets",
+                modalRepsLabel: "Reps",
+                modalRestLabel: "Rest",
+                modalDescTitle: "Detailed Execution Method:",
+                modalTipsTitle: "⚠️ Safety Tips & Injury Prevention:",
+                footerText: "All Rights Reserved © 2026 - Gym Academy Luxury Fitness System.",
+                themeBtnDark: "🌙 Dark",
+                themeBtnLight: "☀️ Light",
+                detailsBtn: "Click to view exercise details..."
+            }
+        };
+
+        const scheduleInfo = {
+            'all': {
+                ar: { title: "🌟 الجدول الشامل لجميع المستويات والأقسام في أكاديمية جيم", days: "• يضم النظام مئات التمارين الموزعة بعناية لتناسب كل الأهداف.\n• يمكنك اختيار مستواك في الأعلى لعرض الجدول الخاص بك بدقة." },
+                en: { title: "🌟 Comprehensive Schedule for All Levels & Sections in Gym Academy", days: "• The system features numerous carefully distributed exercises.\n• You can select your level above to view your exact schedule." }
+            },
+            'مبتدئ': {
+                ar: { title: "🟢 الجدول الأسبوعي لقسم المبتدئين (التأسيس الشامل)", days: "• الأيام: 3 أيام أسبوعياً (مثال: السبت / الإثنين / الأربعاء).\n• التركيز: تعويد المفاصل والأوتار على الأوزان الخفيفة وإتقان التكنيك الصحيح.\n• المدة: 45 دقيقة لكل تمرينة." },
+                en: { title: "🟢 Beginner Weekly Schedule (Complete Foundation)", days: "• Days: 3 days a week (e.g., Sat / Mon / Wed).\n• Focus: Adapting joints and tendons to light weights and proper technique.\n• Duration: 45 minutes per workout." }
+            },
+            'متوسط': {
+                ar: { title: "🔵 الجدول الأسبوعي لقسم المتوسطين (بناء العضلات)", days: "• الأيام: 4 أيام أسبوعياً (نظام دفع / سحب / أرجل).\n• التركيز: زيادة الكثافة التدريبية، رفع الأوزان تدريجياً، وبناء الحجم العضلي.\n• المدة: 60 دقيقة لكل تمرينة." },
+                en: { title: "🔵 Intermediate Weekly Schedule (Muscle Building)", days: "• Days: 4 days a week (Push / Pull / Legs system).\n• Focus: Increasing training intensity, gradual progressive overload, and building muscle mass.\n• Duration: 60 minutes per workout." }
+            },
+            'محترف': {
+                ar: { title: "🔥 الجدول الأسبوعي لقسم المحترفين (الجداعين - أقصى طاقة)", days: "• الأيام: 5 إلى 6 أيام أسبوعياً (تكثيف الضخامة والتنشيف).\n• التركيز: دفع العضلات لأقصى طاقة استيعابية، السوبرسيت، والتكرارات السلبية.\n• المدة: 75 - 90 دقيقة." },
+                en: { title: "🔥 Pro Weekly Schedule (Maximum Intensity)", days: "• Days: 5 to 6 days a week (Bulking & Cutting intensification).\n• Focus: Pushing muscles to maximum capacity, supersets, and negative reps.\n• Duration: 75 - 90 minutes." }
+            }
+        };
+
+        const exercises = [
+            // --- مبتدئ ---
+            {
+                id: 1,
+                name: { ar: "تمرين الضغط الكلاسيكي (Push-Up)", en: "Classic Push-Up" },
+                level: "مبتدئ",
+                muscle: { ar: "الصدر والتراسبس والجذع", en: "Chest, Triceps & Core" },
+                sets: "3 sets / مجموعات",
+                reps: "10 - 15 reps",
+                rest: "60 sec",
+                image: "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. استلقِ على بطنك وضع يديك على الأرض أوسع قليلاً من كتفيك.\n2. ارفع جسمك بالكامل بحيث ترتكز على أطراف أصابع قدميك ويديك.\n3. انزل بجسمك كقطعة واحدة حتى تقترب من لمس الأرض بصدرك.",
+                    en: "1. Lie prone and place hands slightly wider than shoulder-width.\n2. Raise your body supported by toes and hands.\n3. Lower your body as one rigid unit until your chest nearly touches the floor."
+                },
+                tips: {
+                    ar: "تجنب تقوس أسفل الظهر لأسفل لكي لا تسبب ضغطاً على الفقرات القطنية.",
+                    en: "Avoid arching your lower back downward to prevent lumbar strain."
+                }
+            },
+            {
+                id: 2,
+                name: { ar: "تمرين البلانك الثابت (Plank)", en: "Plank Hold" },
+                level: "مبتدئ",
+                muscle: { ar: "عضلات البطن والجذع (Core)", en: "Abdominals & Core" },
+                sets: "3 sets / مجموعات",
+                reps: "45 sec Hold",
+                rest: "45 sec",
+                image: "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. ارْتكز على ساعديك وأطراف أصابع قدميك فقط على الأرض.\n2. اجعل جسمك مشدوداً بخط أفقي مستقيم تماماً من الرأس حتى الكعبين.\n3. اقبض عضلات بطنك بقوة طوال فترة الثبات دون انقطاع التنفس.",
+                    en: "1. Rest on your forearms and toes.\n2. Keep your body in a straight horizontal line from head to heels.\n3. Contract your core firmly throughout the hold."
+                },
+                tips: {
+                    ar: "لا ترفع وركيك للأعلى ولا تدعهما يرتخيان للأسفل.",
+                    en: "Do not raise your hips too high or let them sag downward."
+                }
+            },
+            {
+                id: 3,
+                name: { ar: "ضغط الصدر بالدمبلز (Dumbbell Bench Press)", en: "Dumbbell Bench Press" },
+                level: "مبتدئ",
+                muscle: { ar: "الصدر الأوسط", en: "Middle Chest" },
+                sets: "3 sets / مجموعات",
+                reps: "10 - 12 reps",
+                rest: "60 sec",
+                image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. استلقِ على دكة مسطحة وثبت قدميك على الأرض.\n2. امسك دمبل في كل يد بمستوى الصدر الخارجي.\n3. اضغط للأعلى حتى تقترب الدمبلز بدون تصادم.",
+                    en: "1. Lie flat on a bench with feet planted on the floor.\n2. Hold a dumbbell in each hand at outer chest level.\n3. Press upward until dumbbells nearly meet."
+                },
+                tips: {
+                    ar: "تحكم بحركة النزول (خذ 3 ثوانٍ أثناء النزول).",
+                    en: "Control the eccentric descent (take 3 seconds on the way down)."
+                }
+            },
+            {
+                id: 4,
+                name: { ar: "تمرين القرفصاء بوزن الجسم (Bodyweight Squat)", en: "Bodyweight Squat" },
+                level: "مبتدئ",
+                muscle: { ar: "الأرجل الأمامية والخلفية", en: "Quads & Hamstrings" },
+                sets: "3 sets / مجموعات",
+                reps: "15 reps",
+                rest: "45 sec",
+                image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. قف مع مباعدة القدمين بعرض الكتفين.\n2. أنزل الحوض للخلف كأنك تجلس على كرسي.\n3. حافظ على استقامة الظهر والصدر للأعلى.",
+                    en: "1. Stand with feet shoulder-width apart.\n2. Lower hips back as if sitting on a chair.\n3. Keep your back straight and chest up."
+                },
+                tips: {
+                    ar: "اجعل ثقل جسمك على كعب قدميك أثناء الصعود.",
+                    en: "Keep your weight on your heels as you push back up."
+                }
+            },
+            {
+                id: 5,
+                name: { ar: "تمرين اللانجز بالأوزان الخفيفة (Dumbbell Lunge)", en: "Dumbbell Lunge" },
+                level: "مبتدئ",
+                muscle: { ar: "الفخذين والمؤخرة", en: "Quadriceps & Glutes" },
+                sets: "3 sets / مجموعات",
+                reps: "10 reps لكل رجل",
+                rest: "60 sec",
+                image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. امسك دمبل في كل يد وقِف باستقامة.\n2. اتقدم خطوة للأمام بإحدى الساقين وانزل حتى تقترب الركبة الخلفية من الأرض.\n3. ادفع بالساق الأمامية للعودة لوضعية البداية.",
+                    en: "1. Hold a dumbbell in each hand and stand straight.\n2. Step forward with one leg and lower until the back knee nearly touches the floor.\n3. Push off the front foot to return to the starting position."
+                },
+                tips: {
+                    ar: "حافظ على الجذع عمودياً طوال فترة التمرين.",
+                    en: "Keep your torso upright throughout the movement."
+                }
+            },
+
+            // --- متوسط ---
+            {
+                id: 6,
+                name: { ar: "سكوات بالأوزان الحرة (Barbell Squat)", en: "Barbell Squat" },
+                level: "متوسط",
+                muscle: { ar: "الأرجل الأمامية والمؤخرة", en: "Quads & Glutes" },
+                sets: "4 sets / مجموعات",
+                reps: "8 - 12 reps",
+                rest: "90 sec",
+                image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. ضع البار بعناية على عضلات الترابيس خلف الرقبة.\n2. قف باسطاً قدميك بعرض الكتفين أو أوسع قليلاً.\n3. ابدأ بالنزول ببطء مع إرجاع الحوض للخلف كأنك تجلس على كرسي.\n4. حافظ على استقامة الظهر تماماً والنزول لزاوية 90 درجة.",
+                    en: "1. Place the barbell carefully across your traps behind your neck.\n2. Stand with feet shoulder-width apart.\n3. Lower your body slowly by pushing hips back as if sitting in a chair.\n4. Keep your back straight and descend to a 90-degree angle."
+                },
+                tips: {
+                    ar: "تأكد من عدم تجاوز الركبتين لمستوى أصابع القدمين للحفاظ على سلامة الركبة.",
+                    en: "Ensure your knees do not pass your toes to maintain joint safety."
+                }
+            },
+            {
+                id: 7,
+                name: { ar: "تمرين البانش بريس المستوي بالبار (Barbell Bench Press)", en: "Barbell Bench Press" },
+                level: "متوسط",
+                muscle: { ar: "الصدر بالكامل والتراسبس", en: "Full Chest & Triceps" },
+                sets: "4 sets / مجموعات",
+                reps: "8 - 10 reps",
+                rest: "90 sec",
+                image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. استلقِ على الدكة وثبت قدميك بإحكام على الأرض.\n2. امسك البار بقبضة أوسع قليلاً من كتفيك.\n3. انزل بالبار حتى يلمس منتصف صدرك برفق ثم اضغط للأعلى بقوة.",
+                    en: "1. Lie on the bench and plant your feet firmly on the floor.\n2. Grip the barbell slightly wider than shoulder-width.\n3. Lower the bar until it gently touches the middle of your chest, then press up forcefully."
+                },
+                tips: {
+                    ar: "حافظ على تقوس بسيط في أسفل الظهر وثبات اللوحين الخلفيين.",
+                    en: "Maintain a slight arch in your lower back and keep your shoulder blades retracted."
+                }
+            },
+            {
+                id: 8,
+                name: { ar: "سحب أرضي للظهر بجهاز الكابل (Seated Cable Row)", en: "Seated Cable Row" },
+                level: "متوسط",
+                muscle: { ar: "عضلات الظهر الوسطى والكتف الخلفي", en: "Middle Back & Rear Delts" },
+                sets: "4 sets / مجموعات",
+                reps: "10 - 12 reps",
+                rest: "60 sec",
+                image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. اجلس على الجهاز وثبت قدميك وضع مقبض الكابل بيديك.\n2. اسحب المقبض نحو بطنك مع إرجاع الكتفين للخلف.\n3. اقبض عضلات الظهر بقوة في نهاية السحب ثم أرجع الوزن ببطء.",
+                    en: "1. Sit on the machine, plant your feet, and grab the cable handle.\n2. Pull the handle toward your abdomen while pulling your shoulders back.\n3. Contract your back muscles firmly at the peak and return slowly."
+                },
+                tips: {
+                    ar: "تجنب الأرجحة المفرطة للجذع واستخدم عضلات ظهرك فقط.",
+                    en: "Avoid excessive torso swinging and use your back muscles strictly."
+                }
+            },
+            {
+                id: 9,
+                name: { ar: "ضغط الكتف بالدمبلز (Dumbbell Shoulder Press)", en: "Dumbbell Shoulder Press" },
+                level: "متوسط",
+                muscle: { ar: "الأكتاف (الجانبية والأمامية)", en: "Shoulders (Anterior & Lateral Delts)" },
+                sets: "4 sets / مجموعات",
+                reps: "10 reps",
+                rest: "75 sec",
+                image: "https://images.unsplash.com/photo-1532384746653-8335cd924d55?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. اجلس على مقعد مائل أو مستقيم مع ظهر مدعوم.\n2. ارفع الدمبلز لمستوى الأذنين براحتين متجهتين للأمام.\n3. اضغط الدمبلز للأعلى حتى تقترب من بعضها دون تصادم.",
+                    en: "1. Sit on a bench with back support.\n2. Raise dumbbells to ear level with palms facing forward.\n3. Press dumbbells upward until they nearly meet."
+                },
+                tips: {
+                    ar: "حافظ على شد البطن وعدم تقوس الظهر العلوي أثناء الدفع.",
+                    en: "Keep your core tight and avoid arching your upper back during the press."
+                }
+            },
+            {
+                id: 10,
+                name: { ar: "تمرين بايسبس بالبار المعقوف (EZ Bar Curl)", en: "EZ Bar Bicep Curl" },
+                level: "متوسط",
+                muscle: { ar: "عضلات البايسبس الأمامية للذراع", en: "Biceps" },
+                sets: "3 sets / مجموعات",
+                reps: "10 - 12 reps",
+                rest: "60 sec",
+                image: "https://images.unsplash.com/photo-1581009249964-b0a70198a2ea?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. قف باستقامة وامسك البار المعقوف بقبضة تحتية بمعيّة عرض الكتفين.\n2. اثنِ مرفقيك وارفع البار نحو الصدر ببطء مع تثبيت المرفقين بجانب الجسم.\n3. انزل بالوزن ببطء للأسفل.",
+                    en: "1. Stand straight and grip the EZ bar with an underhand shoulder-width grip.\n2. Bend your elbows and curl the bar toward your chest while keeping elbows pinned to your sides.\n3. Lower the weight slowly."
+                },
+                tips: {
+                    ar: "لا تحرك المرفقين للأمام أثناء رفع الوزن.",
+                    en: "Do not swing your elbows forward while lifting the weight."
+                }
+            },
+
+            // --- محترف ---
+            {
+                id: 11,
+                name: { ar: "تمرين العقلة الواسعة (Wide Grip Pull-Up)", en: "Wide Grip Pull-Up" },
+                level: "محترف",
+                muscle: { ar: "الظهر العريض (Lats)", en: "Latissimus Dorsi" },
+                sets: "4 sets / مجموعات",
+                reps: "6 - 10 reps",
+                rest: "120 sec",
+                image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. تعلق بالبار بقبضة واسعة (راحتا اليدين للأمام).\n2. اسحب جسمك للأعلى بتركيز عالي حتى يرتفع ذقنك فوق مستوى البار.\n3. اثبت لثانية في الأعلى ثم انزل ببطء.",
+                    en: "1. Grab the bar with a wide overhand grip.\n2. Pull yourself upward with high focus until your chin clears the bar.\n3. Hold for a second at the top and lower slowly."
+                },
+                tips: {
+                    ar: "ركز على سحب الوزن باستخدام عضلات الظهر وليس الذراعين.",
+                    en: "Focus on pulling with your back muscles rather than just your arms."
+                }
+            },
+            {
+                id: 12,
+                name: { ar: "رفعة ديدليفت ثقيلة (Heavy Barbell Deadlift)", en: "Heavy Barbell Deadlift" },
+                level: "محترف",
+                muscle: { ar: "السلسلة الخلفية والظهر كامل", en: "Posterior Chain & Full Back" },
+                sets: "4 sets / مجموعات",
+                reps: "5 heavy reps",
+                rest: "3 min",
+                image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. قف أمام البار بحيث تكون الساق قريبة منه.\n2. انحنِ من الحوض مع استقامة تامة للظهر وامسك البار بإحكام.\n3. اقبض جذعك واقذف الحوض للأمام للوقوف بالوزن بالكامل.",
+                    en: "1. Stand with shins close to the barbell.\n2. Hinge at the hips with a perfectly straight back and grip the bar firmly.\n3. Brace your core and drive hips forward to stand up."
+                },
+                tips: {
+                    ar: "تجنب نهائياً تقوس الظهر أثناء الرفع لتفادي الإصابات.",
+                    en: "Strictly avoid rounding your back during the lift to prevent injury."
+                }
+            },
+            {
+                id: 13,
+                name: { ar: "تمرين المتوازيين للصدر (Weighted Dips)", en: "Weighted Dips" },
+                level: "محترف",
+                muscle: { ar: "الصدر السفلي والتراسبس", en: "Lower Chest & Triceps" },
+                sets: "4 sets / مجموعات",
+                reps: "8 - 10 reps",
+                rest: "90 sec",
+                image: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. ارْتكز على عارضتي المتوازيين وارفع جسمك مع إمساك الوزن الإضافي.\n2. أمِل جذعك للأمام قليلاً لاستهداف الصدر، وانزل حتى تتخذ الزاوية المناسبة في المرفق.\n3. ادفع نفسك للأعلى بقوة.",
+                    en: "1. Mount the parallel dip bars and support your body with optional added weight.\n2. Lean your torso slightly forward to target the chest and lower down.\n3. Push yourself back up forcefully."
+                },
+                tips: {
+                    ar: "إذا كنت مبتدئاً ابدأ بدون وزن إضافي وركز على المدى الحركة الكامل.",
+                    en: "If you are a beginner, start without added weight and focus on full range of motion."
+                }
+            },
+            {
+                id: 14,
+                name: { ar: "تمرين تمديد التراسبس بالكباس فوق الرأس (Overhead Tricep Extension)", en: "Overhead Tricep Extension" },
+                level: "محترف",
+                muscle: { ar: "عضلات التراسبس (الرأس الطويل)", en: "Triceps (Long Head)" },
+                sets: "4 sets / مجموعات",
+                reps: "10 - 12 reps",
+                rest: "60 sec",
+                image: "https://images.unsplash.com/photo-1581009249964-b0a70198a2ea?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. امسك دمبل بكلتا يديك واجلس أو قف مع رفع الدمبل فوق رأسك.\n2. انزل بالوزن خلف رأسك ببطء مع الحفاظ على ثبات المرفقين قرب الأذنين.\n3. اضغط للأعلى لعصر التراسبس بالكامل.",
+                    en: "1. Hold a dumbbell with both hands and raise it overhead.\n2. Lower the weight behind your head slowly while keeping elbows close to your ears.\n3. Press upward to fully contract the triceps."
+                },
+                tips: {
+                    ar: "لا تدع مرفقيك يبتعدان عن جانبي رأسك أثناء التمرين.",
+                    en: "Do not let your elbows flare outward during the movement."
+                }
+            },
+            {
+                id: 15,
+                name: { ar: "تمرين السمانة واقفاً بالأجهزة (Standing Calf Raise)", en: "Standing Calf Raise" },
+                level: "محترف",
+                muscle: { ar: "عضلات السمانة (Gastrocnemius)", en: "Calves" },
+                sets: "5 sets / مجموعات",
+                reps: "15 - 20 reps",
+                rest: "45 sec",
+                image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
+                description: {
+                    ar: "1. قف على حافة جهاز السمانة بحيث تكون أعقاب قدميك معلقة بالهواء.\n2. انزل بالعقبين للأسفل لأقصى مدى استطالة.\n3. ارفع جسمك على أطراف أصابع قدميك لأعلى نقطة ممكنة.",
+                    en: "1. Stand on the edge of a calf raise platform with heels hanging off.\n2. Lower your heels downward for maximum stretch.\n3. Raise your body onto your toes as high as possible."
+                },
+                tips: {
+                    ar: "قم بالتثبيت لثانية في أعلى نقطة لزيادة شدة التمرين.",
+                    en: "Hold for a second at the top position to maximize intensity."
+                }
+            }
+        ];
+
+        let activeTab = 'all';
+        const exerciseGrid = document.getElementById('exerciseGrid');
+        const searchInput = document.getElementById('searchInput');
+        const resultsCount = document.getElementById('resultsCount');
+        const currentCategoryTitle = document.getElementById('currentCategoryTitle');
+        const scheduleBox = document.getElementById('scheduleBox');
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const htmlRoot = document.getElementById('htmlRoot');
+            const langBtn = document.getElementById('langBtn');
+
+            if (currentLang === 'en') {
+                htmlRoot.setAttribute('dir', 'ltr');
+                htmlRoot.setAttribute('lang', 'en');
+                langBtn.textContent = "عربي 🌐";
+            } else {
+                htmlRoot.setAttribute('dir', 'rtl');
+                htmlRoot.setAttribute('lang', 'ar');
+                langBtn.textContent = "EN 🌐";
+            }
+
+            updateStaticTexts();
+            switchTab(activeTab);
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const bodyTheme = document.getElementById('bodyTheme');
+            const headerTheme = document.getElementById('headerTheme');
+            const heroSection = document.getElementById('heroSection');
+            const tipsSection = document.getElementById('tips-section');
+            const calcSection = document.getElementById('calculator-section');
+            const footerTheme = document.getElementById('footerTheme');
+            const themeBtn = document.getElementById('themeBtn');
+            const t = translations[currentLang];
+
+            if (currentTheme === 'light') {
+                bodyTheme.className = "min-h-screen flex flex-col theme-light";
+                headerTheme.className = "bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-md transition-colors duration-300";
+                heroSection.className = "relative bg-gradient-to-b from-slate-100 via-white to-slate-100 py-16 px-4 text-center border-b border-slate-200 transition-colors duration-300";
+                tipsSection.className = "bg-slate-100 border-t border-slate-200 py-16 px-4 transition-colors duration-300";
+                calcSection.className = "bg-white border-t border-slate-200 py-16 px-4 transition-colors duration-300";
+                footerTheme.className = "bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 transition-colors duration-300";
+                themeBtn.textContent = t.themeBtnDark;
+            } else {
+                bodyTheme.className = "min-h-screen flex flex-col theme-dark";
+                headerTheme.className = "bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40 shadow-2xl transition-colors duration-300";
+                heroSection.className = "relative bg-gradient-to-b from-slate-950 via-slate-900 to-[#090d16] py-16 px-4 text-center border-b border-slate-800/60 transition-colors duration-300";
+                tipsSection.className = "bg-slate-950 border-t border-slate-900 py-16 px-4 transition-colors duration-300";
+                calcSection.className = "bg-slate-900 border-t border-slate-800 py-16 px-4 transition-colors duration-300";
+                footerTheme.className = "bg-slate-950 border-t border-slate-900 py-8 text-center text-xs text-slate-500 transition-colors duration-300";
+                themeBtn.textContent = t.themeBtnLight;
+            }
+        }
+
+        function updateStaticTexts() {
+            const t = translations[currentLang];
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('navBrand').textContent = t.navBrand;
+            document.getElementById('menuHome').textContent = t.menuHome;
+            document.getElementById('menuEncyclopedic').textContent = t.menuEncyclopedic;
+            document.getElementById('menuTips').textContent = t.menuTips;
+            document.getElementById('menuCalculator').textContent = t.menuCalculator;
+            document.getElementById('heroBadge').textContent = t.heroBadge;
+            document.getElementById('heroTitle').innerHTML = t.heroTitle;
+            document.getElementById('heroDesc').textContent = t.heroDesc;
+            searchInput.placeholder = t.searchPlaceholder;
+
+            document.getElementById('tab-all').textContent = t.tabAll;
+            document.getElementById('tab-مبتدئ').textContent = t.tabBeginner;
+            document.getElementById('tab-متوسط').textContent = t.tabIntermediate;
+            document.getElementById('tab-محترف').textContent = t.tabPro;
+
+            document.getElementById('tipsBadge').textContent = t.tipsBadge;
+            document.getElementById('tipsMainTitle').textContent = t.tipsMainTitle;
+            document.getElementById('tipsMainDesc').textContent = t.tipsMainDesc;
+            document.getElementById('tipCard1Title').textContent = t.tipCard1Title;
+            document.getElementById('tipCard1Desc').textContent = t.tipCard1Desc;
+            document.getElementById('tipCard2Title').textContent = t.tipCard2Title;
+            document.getElementById('tipCard2Desc').textContent = t.tipCard2Desc;
+            document.getElementById('tipCard3Title').textContent = t.tipCard3Title;
+            document.getElementById('tipCard3Desc').textContent = t.tipCard3Desc;
+
+            document.getElementById('calcTitle').textContent = t.calcTitle;
+            document.getElementById('calcDesc').textContent = t.calcDesc;
+            document.getElementById('labelWeight').textContent = t.labelWeight;
+            document.getElementById('labelHeight').textContent = t.labelHeight;
+            document.getElementById('calcBtn').textContent = t.calcBtn;
+
+            document.getElementById('modalSetsLabel').textContent = t.modalSetsLabel;
+            document.getElementById('modalRepsLabel').textContent = t.modalRepsLabel;
+            document.getElementById('modalRestLabel').textContent = t.modalRestLabel;
+            document.getElementById('modalDescTitle').textContent = t.modalDescTitle;
+            document.getElementById('modalTipsTitle').textContent = t.modalTipsTitle;
+            document.getElementById('footerText').textContent = t.footerText;
+
+            const themeBtn = document.getElementById('themeBtn');
+            themeBtn.textContent = currentTheme === 'dark' ? t.themeBtnLight : t.themeBtnDark;
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            const t = translations[currentLang];
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = currentTheme === 'dark' 
+                    ? "tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-slate-900 text-slate-300 hover:bg-slate-800 transition border border-slate-800"
+                    : "tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-white text-slate-700 hover:bg-slate-100 transition border border-slate-200 shadow-sm";
+            });
+            document.getElementById(`tab-${tab}`).className = "tab-btn px-6 py-3.5 rounded-2xl font-bold text-sm bg-amber-500 text-slate-950 transition shadow-lg shadow-amber-500/25";
+
+            if(tab === 'all') currentCategoryTitle.textContent = t.categoryAll;
+            else if(tab === 'مبتدئ') currentCategoryTitle.textContent = t.categoryBeginner;
+            else if(tab === 'متوسط') currentCategoryTitle.textContent = t.categoryIntermediate;
+            else if(tab === 'محترف') currentCategoryTitle.textContent = t.categoryPro;
+
+            const info = scheduleInfo[tab][currentLang];
+            scheduleBox.className = currentTheme === 'dark'
+                ? "bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-6 md:p-8 rounded-3xl mb-12 shadow-2xl relative overflow-hidden transition-colors duration-300"
+                : "bg-gradient-to-br from-white to-slate-50 border border-slate-200 p-6 md:p-8 rounded-3xl mb-12 shadow-xl relative overflow-hidden transition-colors duration-300";
+            
+            scheduleBox.innerHTML = `
+                <h4 class="text-amber-500 font-black text-lg mb-2">${info.title}</h4>
+                <p class="${currentTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'} text-sm whitespace-pre-line leading-relaxed">${info.days}</p>
+            `;
+
+            filterAndRender();
+        }
+
+        function filterAndRender() {
+            const query = searchInput.value.toLowerCase();
+            const t = translations[currentLang];
+
+            const filtered = exercises.filter(ex => {
+                const matchesTab = activeTab === 'all' || ex.level === activeTab;
+                const matchesSearch = ex.name[currentLang].toLowerCase().includes(query) || ex.muscle[currentLang].toLowerCase().includes(query);
+                return matchesTab && matchesSearch;
+            });
+
+            exerciseGrid.innerHTML = '';
+            resultsCount.textContent = currentLang === 'ar' ? `عرض ${filtered.length} تمرين` : `Showing ${filtered.length} exercises`;
+
+            if (filtered.length === 0) {
+                exerciseGrid.innerHTML = `<div class="col-span-full text-center py-16 text-slate-500 font-bold">${currentLang === 'ar' ? 'لا توجد تمارين تطابق بحثك حالياً.' : 'No exercises match your search.'}</div>`;
+                return;
+            }
+
+            filtered.forEach(ex => {
+                let badgeColor = ex.level === 'مبتدئ' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
+                                 ex.level === 'متوسط' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 
+                                 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+
+                const card = document.createElement('div');
+                card.className = currentTheme === 'dark'
+                    ? "bg-slate-900 border border-slate-800/80 rounded-3xl overflow-hidden hover:border-amber-500/50 transition duration-300 flex flex-col shadow-xl cursor-pointer group"
+                    : "bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-amber-500/50 transition duration-300 flex flex-col shadow-lg cursor-pointer group";
+                
+                card.onclick = () => openModal(ex);
+                
+                card.innerHTML = `
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="${ex.image}" alt="${ex.name[currentLang]}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 ${currentLang === 'ar' ? 'right-3' : 'left-3'} text-xs font-bold px-3.5 py-1.5 rounded-full border backdrop-blur-md ${badgeColor}">${ex.level}</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-xs text-amber-500 font-bold mb-1">${ex.muscle[currentLang]}</span>
+                        <h4 class="text-lg font-black ${currentTheme === 'dark' ? 'text-white' : 'text-slate-900'} mb-3 group-hover:text-amber-500 transition">${ex.name[currentLang]}</h4>
+                        <div class="flex gap-2 mb-4 mt-auto">
+                            <span class="${currentTheme === 'dark' ? 'bg-slate-950 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-700 border-slate-200'} text-xs px-3 py-1.5 rounded-xl border font-bold">${ex.sets}</span>
+                            <span class="${currentTheme === 'dark' ? 'bg-slate-950 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-700 border-slate-200'} text-xs px-3 py-1.5 rounded-xl border font-bold">${ex.reps}</span>
+                        </div>
+                        <span class="text-xs text-slate-500 font-semibold">${t.detailsBtn}</span>
+                    </div>
+                `;
+                exerciseGrid.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener('input', filterAndRender);
+
+        const modal = document.getElementById('exerciseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalLevel = document.getElementById('modalLevel');
+        const modalMuscle = document.getElementById('modalMuscle');
+        const modalSets = document.getElementById('modalSets');
+        const modalReps = document.getElementById('modalReps');
+        const modalRest = document.getElementById('modalRest');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalTips = document.getElementById('modalTips');
+
+        function openModal(ex) {
+            modalTitle.textContent = ex.name[currentLang];
+            modalLevel.textContent = ex.level;
+            modalLevel.className = `text-xs font-bold px-3 py-1 rounded-full uppercase inline-block ${
+                ex.level === 'مبتدئ' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 
+                ex.level === 'متوسط' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 
+                'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+            }`;
+            modalMuscle.textContent = (currentLang === 'ar' ? 'العضلة المستهدفة: ' : 'Target Muscle: ') + ex.muscle[currentLang];
+            modalSets.textContent = ex.sets;
+            modalReps.textContent = ex.reps;
+            modalRest.textContent = ex.rest;
+            modalDesc.textContent = ex.description[currentLang];
+            modalTips.textContent = ex.tips[currentLang];
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            const height = parseFloat(document.getElementById('heightInput').value) / 100;
+            const resultBox = document.getElementById('bmiResult');
+
+            if (!weight || !height || weight <= 0 || height <= 0) {
+                resultBox.classList.remove('hidden');
+                resultBox.textContent = currentLang === 'ar' ? "الرجاء إدخال الوزن والطول بشكل صحيح!" : "Please enter correct weight and height!";
+                return;
+            }
+
+            const bmi = (weight / (height * height)).toFixed(1);
+            let status = "";
+
+            if (currentLang === 'ar') {
+                if (bmi < 18.5) status = "وزن منخفض (تحتاج إلى تضخيم وزيادة السعرات)";
+                else if (bmi >= 18.5 && bmi < 25) status = "وزن مثالي ورائع (حافظ على استمرارك)";
+                else if (bmi >= 25 && bmi < 30) status = "وزن زائد (تحتاج إلى تنشيف وحرق دهون)";
+                else status = "سمنة مفرطة (ننصحك باتباع جدول الجداعين مع نظام غذائي صارم)";
+                resultBox.textContent = `مؤشر كتلة جسمك (BMI): ${bmi} — ${status}`;
+            } else {
+                if (bmi < 18.5) status = "Underweight (Needs bulking and calorie surplus)";
+                else if (bmi >= 18.5 && bmi < 25) status = "Optimal & Great Weight (Keep it up)";
+                else if (bmi >= 25 && bmi < 30) status = "Overweight (Needs cutting and fat burning)";
+                else status = "Obese (Recommended to follow the pro beast schedule with strict diet)";
+                resultBox.textContent = `BMI: ${bmi} — ${status}`;
+            }
+
+            resultBox.classList.remove('hidden');
+        }
+
+        switchTab('all');
+    </script>
+</body>
+</html>
